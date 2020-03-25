@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    id="cordova-plugin-meed-contacts" version="0.0.1">
+    <name>Contacts</name>
+    <js-module name="Contacts" src="www/Contacts.js">
+        <clobbers target="meed.plugins.Contacts" />
+        <clobbers target="cordova.plugins.Contacts" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="Contacts">
+                <param name="android-package" value="com.meedbankingclub.cordova.contacts.Contacts" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.READ_CONTACTS" />
+        </config-file>
+        <source-file src="src/android/Contacts.java" target-dir="src/com/meedbankingclub/cordova/contacts" />
+        <source-file src="src/android/ContactSdk.java" target-dir="src/com/meedbankingclub/cordova/contacts" />
+    </platform>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="Contacts">
+                <param name="ios-package" value="CVDMeedContacts" />
+            </feature>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSContactsUsageDescription">
+            <string>need contacts access to search friends</string>
+        </config-file>
+        <header-file src="src/ios/CVDMeedContacts.h" />
+        <source-file src="src/ios/CVDMeedContacts.m" />
+        <header-file src="src/ios/CVDMeedContact.h" />
+        <source-file src="src/ios/CVDMeedContact.m" />
+
+        <framework src="Contacts.framework" weak="true" />
+    </platform>
+</plugin>
