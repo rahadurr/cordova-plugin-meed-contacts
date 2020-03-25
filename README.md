@@ -64,26 +64,8 @@ loadAllContact() {
 }
 ```
 
-### Fetch All contacts
-To fetch all contacts from user device. We can use 
-`meed.plugins.all(options, successCallback, errorCallback)`
-method from plugins.
-
-```typescript
-loadAllContact() {
-
-    const options = {"limit": 10, "skip": 5}
-
-    meed.plugins.Contacts.all( options,
-    , (contacts) => {
-      console.log(contacts);
-    }, (error) => {
-      console.error(error);
-    });
-}
-```
 ### Response
-```json
+```console
 [
     {name: "John Appleseed", emails: ["John-Appleseed@mac.com"]}, 
     {name: "Anna Haro", emails: ["anna-haro@mac.com"]},
@@ -114,7 +96,7 @@ searchContact(ev: any) {
   }
 ```
 ### Response
-```json
+```console
 [
     {name: "John Appleseed", emails: ["John-Appleseed@mac.com"]}, 
     {name: "Anna Haro", emails: ["anna-haro@mac.com"]},
