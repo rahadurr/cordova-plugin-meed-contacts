@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" 
     xmlns:android="http://schemas.android.com/apk/res/android" 
-    id="cordova-plugin-meed-contacts" version="0.0.1">
+    id="cordova-plugin-meed-contacts" version="1.0.0">
     <name>Contacts</name>
     <js-module name="Contacts" src="www/Contacts.js">
         <clobbers target="meed.plugins.Contacts" />
