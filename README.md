@@ -11,7 +11,9 @@ Initial release.
 ## Installation:
 
 ```console
-cordova plugin add cordova-plugin-meed-contacts
+ionic cordova plugin add cordova-plugin-meed-contacts
+
+npm install @meed-native/contacts
 ```
 
 ## Permission Required:
@@ -27,40 +29,57 @@ cordova plugin add cordova-plugin-meed-contacts
 
 ## Getting Start:
 
-First of all declare plugin variable in a .ts file where you want to access plugin methods.
+```typescript
+// app.module.ts
+import { Contacts } from '@meed-native/contacts/ngx';
 
+@NgModule({
+  ...
+
+  providers: [
+    ...
+    Contacts
+    ...
+  ]
+  ...
+})
+export class AppModule { }
+```
+
+
+### Fetch All contacts
+To fetch all contacts from user device. We can use 
+`all(options: Options)`
+method from plugins.
 
 ```typescript
 // home.page.ts file
 
 import { Component } from '@angular/core';
-
-declare var meed;  // Plugin variable
+// Import meed native wrapper 
+import { Contacts, Options, Contact } from '@meed-native/contacts/ngx';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-```
+export class HomePage {
+  constructor(
+    private contacts: Contacts
+  ) {}
 
+  loadAllContact() {
+    const options: Options = {"limit": 10, "skip": 0};
 
-### Fetch All contacts
-To fetch all contacts from user device. We can use 
-`meed.plugins.all(options, successCallback, errorCallback)`
-method from plugins.
-
-```typescript
-loadAllContact() {
-
-    const options = {"limit": 10, "skip": 5}
-
-    meed.plugins.Contacts.all( options,
-    , (contacts) => {
+    this.contacts.all(options)
+    .then((contacts: Contact[]) => {
       console.log(contacts);
-    }, (error) => {
-      console.error(error);
+    })
+    .catch((error: any) => {
+      console.log(error)
     });
+  }
 }
 ```
 
@@ -79,21 +98,39 @@ loadAllContact() {
 
 ### Search Contacts:
 To search contact by charecter we can use
-`meed.plugins.search(searchString, options, successCallback, errorCallback)`
+`search(searchText: string, options: Options)`
 method from plugin.
 ```typescript
-searchContact(ev: any) {
-    const searchString = ev.target.value;
+// home.page.ts file
 
-    const options = { "limit": 10, "skip": 0 };
+import { Component } from '@angular/core';
+// Import meed native wrapper 
+import { Contacts, Options, Contact } from '@meed-native/contacts/ngx';
 
+@Component({
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+})
+export class HomePage {
+  constructor(
+    private contacts: Contacts
+  ) {}
 
-    meed.plugins.Contacts.search(searchString, options, (res) => {
-      console.log(res);
-    }, (error) => {
-      console.error(error);
-    });
+  searchContact(ev: any) {
+    const searchText = ev.target.value;
+
+    const options: Options = { "limit": 10, "skip": 0 };
+
+    this.contacts.search(searchText, options)
+      .then((contacts: Contact[]) => {
+        console.log(contacts);
+      }).catch((error: any) => {
+        console.log(error);
+        
+      });
   }
+}
 ```
 ### Response
 ```console
@@ -107,18 +144,25 @@ searchContact(ev: any) {
 
 ## API
 
-### Options:
+### Interfaces:
 ```typescript 
-interface Option {
+interface Contact {
+    name: string;
+    emails: string[];
+}
+```
+
+```typescript 
+interface Options {
     limit: number;
     skip: number;
 }
 ```
 
 ### Actions:
-`meed.plugins.all(options, successCallback, errorCallback)`
+`all(options: Options)`
 
-`meed.plugins.search(searchString, options, successCallback, errorCallback)`
+`search(searchText: String, options: Options)`
 
 
 ## License
